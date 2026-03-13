@@ -1,0 +1,47 @@
+﻿workflows:
+  phone-app:
+    name: Phone App (Flutter)
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: "*"
+          include: true
+    environment:
+      flutter: stable
+      vars:
+        FLUTTER_APP_DIR: "phone-app/app"
+    scripts:
+      - name: Bootstrap host app (if needed)
+        script: |
+          cd phone-app
+          bash ./tool/bootstrap.sh
+      - name: Install dependencies
+        script: |
+          cd $FLUTTER_APP_DIR
+          flutter pub get
+      - name: Run tests (package)
+        script: |
+          cd phone-app/packages/phone_app
+          flutter test
+      - name: Build Android (AAB)
+        script: |
+          cd $FLUTTER_APP_DIR
+          flutter build appbundle --release
+      - name: Build iOS (unsigned IPA)
+        script: |
+          cd $FLUTTER_APP_DIR
+          flutter build ipa --release --no-codesign
+    artifacts:
+      - phone-app/app/build/**/outputs/**/*.aab
+      - phone-app/app/build/ios/ipa/*.ipa
+    publishing:
+      # Configure signing + App Store Connect/TestFlight publishing in Codemagic UI.
+      scripts:
+        - name: Post-build summary
+          script: |
+            echo "Configure iOS signing + TestFlight publishing in Codemagic for real device installs."
+
+

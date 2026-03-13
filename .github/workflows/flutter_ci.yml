@@ -1,0 +1,30 @@
+﻿name: phone-app-ci
+
+on:
+  push:
+    paths:
+      - "phone-app/**"
+  pull_request:
+    paths:
+      - "phone-app/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Bootstrap host app (Android on Linux)
+        run: bash phone-app/tool/bootstrap.sh
+
+      - name: Flutter pub get (package)
+        working-directory: phone-app/packages/phone_app
+        run: flutter pub get
+
+      - name: Run package tests
+        working-directory: phone-app/packages/phone_app
+        run: flutter test

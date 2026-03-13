@@ -1,0 +1,22 @@
+﻿name: phone_app
+description: Flutter UI + TCP client for Senior-Design nfc-login-server.
+version: 0.1.0
+publish_to: "none"
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mobile_scanner: ^5.2.3
+  shared_preferences: ^2.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+
+

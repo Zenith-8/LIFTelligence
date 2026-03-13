@@ -1,0 +1,16 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# IDE
+.idea/
+.vscode/
+
+# Generated host app (kept in repo once bootstrapped, but ignore transient build artifacts)
+app/.dart_tool/
+app/build/
+app/.idea/
+
